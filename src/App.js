@@ -1,50 +1,64 @@
-import Tree from "./tree/Tree";
+// import Tree from "./tree/Tree";
+import Tree from "./interfaceBuilderTree/components/Tree";
 
 function App() {
-  const treeData = [
-    {
-      key: "0",
-      label: "Documents",
-      children: [
-        {
-          key: "0-0",
-          label: "Document 1-1",
-          children: [
-            {
-              key: "0-1-1",
-              label: "Document-0-1.doc",
-            },
-            {
-              key: "0-1-2",
-              label: "Document-0-2.doc",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: "1",
-      label: "Desktop",
-      children: [
-        {
-          key: "1-0",
-          label: "document1.doc",
-        },
-        {
-          key: "0-0",
-          label: "documennt-2.doc",
-        },
-      ],
-    },
-    {
-      key: "2",
-      label: "Downloads",
-      children: [],
-    },
-  ];
+  const treeData = {
+    id: 1,
+    type: 'node',
+    nodes: [
+      {
+        id: 2,
+        type: 'leaf'
+      }, {
+        id: 3,
+        type: 'node',
+        nodes: [
+          {
+            id: 8,
+            type: 'leaf'
+          }, {
+            id: 9,
+            type: 'leaf'
+          }
+        ]
+      }, {
+        id: 4,
+        type: 'node',
+        nodes: [
+          {
+            id: 10,
+            type: 'leaf'
+          }, {
+            id: 11, 
+            type: 'leaf'
+          }
+        ]
+      }, {
+        id: 5, 
+        type: 'node',
+        nodes: [
+          {id: 12, type: 'leaf'}
+        ]
+      }, {
+        id: 6,
+        type: 'node',
+        nodes: [
+          {id: 13, type: 'leaf'},
+          {
+            id: 14, 
+            type: 'node',
+            nodes: [
+              {id: 15, type: 'leaf'},
+              {id: 16, type: 'leaf'}
+            ]
+          }
+        ]
+      }
+    ]
+  }
   return (
     <div className="App">
-      <Tree treeData={treeData} />
+      <Tree treeData = {treeData}/>
     </div>
   );
 }

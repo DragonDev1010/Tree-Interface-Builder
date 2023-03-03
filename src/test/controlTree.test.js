@@ -2,7 +2,8 @@ import {
   getNodeFromTreeArray,
   getParentNodeOfChild,
   getNeighbors,
-  moveNodeUp
+  moveNodeUp,
+  moveNodeDown
 } from '../interfaceBuilderTree/functions/controlTree.js'
 import {testControlTreeData} from './controlTree.data.js'
 import deepCopyOfNestedObject from './baseFunctions/deepCopyOfNestedObject.js'
@@ -18,7 +19,7 @@ describe('getNodeFromTreeArray', function() {
 
   it('node Item Id - 1', function(done) {
     var result = getNodeFromTreeArray(testControlTreeData, 1)
-    var expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] }
+    var expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] }
     expect(result).to.eql(expected)
     done()
   })
@@ -53,7 +54,7 @@ describe('getNodeFromTreeArray', function() {
   it('checking deep copy of Item 1', function(done) {
     var result = getNodeFromTreeArray(testControlTreeData, 1)
     testControlTreeData[0].type = 'test'
-    var expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] }
+    var expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] }
     expect(result).to.eql(expected)
     testControlTreeData[0].type = 'node'
     done()
@@ -71,7 +72,7 @@ describe('getParentNodeOfChild', function() {
   })
 
   it('get parent of node 1', function(done) {
-    const childNode = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [ null, null ] }
+    const childNode = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [ null, null ] }
     const expected = null
     var result = getParentNodeOfChild(testControlTreeData, childNode)
     expect(result).to.eql(expected)
@@ -80,7 +81,7 @@ describe('getParentNodeOfChild', function() {
 
   it('get parent of node 2', function(done) {
     const childNode = { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 2 ] }
-    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] }
+    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] }
     var result = getParentNodeOfChild(testControlTreeData, childNode)
     expect(result).to.eql(expected)
     done()
@@ -88,7 +89,7 @@ describe('getParentNodeOfChild', function() {
 
   it('get parent of node 3', function(done) {
     const childNode = { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 1, 4 ] }
-    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] }
+    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] }
     var result = getParentNodeOfChild(testControlTreeData, childNode)
     expect(result).to.eql(expected)
     done()
@@ -96,7 +97,7 @@ describe('getParentNodeOfChild', function() {
 
   it('get parent of node 4', function(done) {
     const childNode = { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] }
-    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] }
+    const expected = { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] }
     var result = getParentNodeOfChild(testControlTreeData, childNode)
     expect(result).to.eql(expected)
     done()
@@ -180,10 +181,10 @@ describe('moveNodeUp', function() {
     let testTreeData = deepCopyOfNestedObject(testControlTreeData)
     var node = { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] }
     var expected = [
-      { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] },
-      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ 3, 4 ] },
-      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ null, 2 ] },
-      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 2, 5 ] },
+      { id: 1, parent: null, type: 'node', children: [3, 2, 4, 5, 6], siblings: [null, null] },
+      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
+      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
+      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },
       { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 4, 6 ] },
       { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] },
       { id: 8, parent: 3, type: 'leaf', children: null, siblings: [ null, 9 ] },
@@ -196,8 +197,8 @@ describe('moveNodeUp', function() {
       { id: 15, parent: 14, type: 'leaf', children: null, siblings: [ null, 16 ] },
       { id: 16, parent: 14, type: 'leaf', children: null, siblings: [ 15, null ] },
     ]
-    var result = moveNodeUp(testTreeData, node)
-    expect(result).to.eql(expected)
+    moveNodeUp(testTreeData, node)
+    expect(testTreeData).to.eql(expected)
     done()
   })
     
@@ -205,11 +206,11 @@ describe('moveNodeUp', function() {
     let testTreeData = deepCopyOfNestedObject(testControlTreeData)
     var node = { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] }
     var expected = [
-      { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] },
-      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 4 ] },
-      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 4, 5 ] },
-      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 2, 3 ] },
-      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 3, 6 ] },
+      { id: 1, parent: null, type: 'node', children: [2, 4, 3, 5, 6], siblings: [null, null] },
+      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
+      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
+      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },
+      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 4, 6 ] },
       { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] },
       { id: 8, parent: 3, type: 'leaf', children: null, siblings: [ null, 9 ] },
       { id: 9, parent: 3, type: 'leaf', children: null, siblings: [ 8, null ] },
@@ -221,8 +222,8 @@ describe('moveNodeUp', function() {
       { id: 15, parent: 14, type: 'leaf', children: null, siblings: [ null, 16 ] },
       { id: 16, parent: 14, type: 'leaf', children: null, siblings: [ 15, null ] },
     ]
-    var result = moveNodeUp(testTreeData, node)
-    expect(result).to.eql(expected)
+    moveNodeUp(testTreeData, node)
+    expect(testTreeData).to.eql(expected)
     done()
   })
 
@@ -230,12 +231,12 @@ describe('moveNodeUp', function() {
     let testTreeData = deepCopyOfNestedObject(testControlTreeData)
     var node = { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] }
     var expected = [
-      { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] },
+      { id: 1, parent: null, type: 'node', children: [2, 3, 4, 6, 5], siblings: [null, null] },
       { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
       { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
-      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 6 ] },
-      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 6, null ] },
-      { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 4, 5 ] },
+      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },
+      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 4, 6 ] },
+      { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] },
       { id: 8, parent: 3, type: 'leaf', children: null, siblings: [ null, 9 ] },
       { id: 9, parent: 3, type: 'leaf', children: null, siblings: [ 8, null ] },
       { id: 10, parent: 4, type: 'leaf', children: null, siblings: [ null, 11 ] },
@@ -246,9 +247,60 @@ describe('moveNodeUp', function() {
       { id: 15, parent: 14, type: 'leaf', children: null, siblings: [ null, 16 ] },
       { id: 16, parent: 14, type: 'leaf', children: null, siblings: [ 15, null ] },
     ]
-    var result = moveNodeUp(testTreeData, node)
-    expect(result).to.eql(expected)
+    moveNodeUp(testTreeData, node)
+    expect(testTreeData).to.eql(expected)
     done()
   })
-  
+})
+
+describe('moveNodeDown', function() {
+  it('move down Node 2', function(done) {
+    let testTreeData = deepCopyOfNestedObject(testControlTreeData)
+    var node = { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] }
+    var expected = [
+      { id: 1, parent: null, type: 'node', children: [3, 2, 4, 5, 6], siblings: [null, null] },
+      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
+      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
+      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },
+      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 4, 6 ] },
+      { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] },
+      { id: 8, parent: 3, type: 'leaf', children: null, siblings: [ null, 9 ] },
+      { id: 9, parent: 3, type: 'leaf', children: null, siblings: [ 8, null ] },
+      { id: 10, parent: 4, type: 'leaf', children: null, siblings: [ null, 11 ] },
+      { id: 11, parent: 4, type: 'leaf', children: null, siblings: [ 10, null ] },
+      { id: 12, parent: 5, type: 'leaf', children: null, siblings: [ null, null ] },
+      { id: 13, parent: 6, type: 'leaf', children: null, siblings: [ null, 14 ] },
+      { id: 14, parent: 6, type: 'node', children: [ 15, 16 ], siblings: [ 13, null ] },
+      { id: 15, parent: 14, type: 'leaf', children: null, siblings: [ null, 16 ] },
+      { id: 16, parent: 14, type: 'leaf', children: null, siblings: [ 15, null ] },
+    ]
+    moveNodeDown(testTreeData, node)
+    expect(testTreeData).to.eql(expected)
+    done()
+  })
+
+  it('move down Node 3', function(done) {
+    let testTreeData = deepCopyOfNestedObject(testControlTreeData)
+    var node = { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] }
+    var expected = [
+      { id: 1, parent: null, type: 'node', children: [2, 4, 3, 5, 6], siblings: [null, null] },
+      { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
+      { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
+      { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },
+      { id: 5, parent: 1, type: 'node', children: [ 12 ], siblings: [ 4, 6 ] },
+      { id: 6, parent: 1, type: 'node', children: [ 13, 14 ], siblings: [ 5, null ] },
+      { id: 8, parent: 3, type: 'leaf', children: null, siblings: [ null, 9 ] },
+      { id: 9, parent: 3, type: 'leaf', children: null, siblings: [ 8, null ] },
+      { id: 10, parent: 4, type: 'leaf', children: null, siblings: [ null, 11 ] },
+      { id: 11, parent: 4, type: 'leaf', children: null, siblings: [ 10, null ] },
+      { id: 12, parent: 5, type: 'leaf', children: null, siblings: [ null, null ] },
+      { id: 13, parent: 6, type: 'leaf', children: null, siblings: [ null, 14 ] },
+      { id: 14, parent: 6, type: 'node', children: [ 15, 16 ], siblings: [ 13, null ] },
+      { id: 15, parent: 14, type: 'leaf', children: null, siblings: [ null, 16 ] },
+      { id: 16, parent: 14, type: 'leaf', children: null, siblings: [ 15, null ] },
+    ]
+    moveNodeDown(testTreeData, node)
+    expect(testTreeData).to.eql(expected)
+    done()
+  })
 })

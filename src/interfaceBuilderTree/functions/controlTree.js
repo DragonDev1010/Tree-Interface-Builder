@@ -2,7 +2,7 @@ function getNodeFromTreeArray(treeArray, nodeId) {
   var nodeItem = null
   treeArray.map((arrayItem) => {
     if (arrayItem.id == nodeId)
-      nodeItem = {...arrayItem} // to avoid `shallow copy` of object
+      nodeItem = { ...arrayItem } // to avoid `shallow copy` of object
   })
   return nodeItem
 }
@@ -33,7 +33,7 @@ function getNeighbors(treeArray, childNode) {
     currentNextChild: {
       id: currentNextChild && currentNextChild.id,
       siblings: currentNextChild && [currentNextChild.siblings[0], currentNextChild.siblings[1]]
-    }, 
+    },
     twoPreviousChild: {
       id: twoPreviousChild && twoPreviousChild.id,
       siblings: twoPreviousChild && [twoPreviousChild.siblings[0], twoPreviousChild.siblings[1]]
@@ -41,22 +41,46 @@ function getNeighbors(treeArray, childNode) {
   }
 }
 
-function moveNodeUp(treeArray, movingNode) {
-  var neighbors = getNeighbors(treeArray, movingNode)
-  treeArray.map((node) => {
-    if (neighbors.twoPreviousChild != null && neighbors.twoPreviousChild.id == node.id)
-      node.siblings[1] = movingNode.id
-    if (neighbors.currentPreviousChild != null && neighbors.currentPreviousChild.id == node.id) {
-      node.siblings[0] = movingNode.id
-      node.siblings[1] = movingNode.siblings[1]
-    }
-    if (neighbors.currentNextChild != null && neighbors.currentNextChild.id == node.id)
-      node.siblings[0] = neighbors.currentPreviousChild.id
-    if (node.id == movingNode.id) {
-      node.siblings[0] = neighbors.currentPreviousChild.siblings[0]
-      node.siblings[1] = neighbors.currentPreviousChild.id
-    }
+
+function getAllChildrenOfParent(treeArray, movingNode) {
+  // find parent of moving-node
+  var parentNodeId = movingNode.parent
+  var parentNode = null
+  treeArray.map(arrayItem => {
+    if (arrayItem.id == parentNodeId)
+      parentNode = arrayItem
   })
-  return treeArray
+
+  // get all children of parent
+  var idxOfChildren = parentNode.children
+
+  return idxOfChildren
 }
-export { getNodeFromTreeArray, getParentNodeOfChild, getNeighbors, moveNodeUp }
+
+function moveNodeUp(treeArray, movingNode) {
+  var idxOfChildren = getAllChildrenOfParent(treeArray, movingNode)
+  // re-ordering of children
+  // checking if there is previous node
+  var idxOfMovingNodeInChildrenIdArray = idxOfChildren.indexOf(movingNode.id)
+  if (idxOfMovingNodeInChildrenIdArray > 0)
+    idxOfChildren.splice(
+      idxOfMovingNodeInChildrenIdArray - 1,
+      0,
+      idxOfChildren.splice(idxOfMovingNodeInChildrenIdArray, 1)[0]
+    )
+}
+
+function moveNodeDown(treeArray, movingNode) {
+  var idxOfChildren = getAllChildrenOfParent(treeArray, movingNode)
+  // re-ordering of children
+  // checking if there is next node
+  var idxOfMovingNodeInChildrenIdArray = idxOfChildren.indexOf(movingNode.id)
+  if (idxOfMovingNodeInChildrenIdArray + 1 < idxOfChildren.length)
+    idxOfChildren.splice(
+      idxOfMovingNodeInChildrenIdArray + 1,
+      0,
+      idxOfChildren.splice(idxOfMovingNodeInChildrenIdArray, 1)[0]
+    )
+}
+
+export { getNodeFromTreeArray, getParentNodeOfChild, getNeighbors, moveNodeUp, moveNodeDown }

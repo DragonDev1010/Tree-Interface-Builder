@@ -1,5 +1,5 @@
 export const testControlTreeData = [
-  { id: 1, parent: null, type: 'node', children: [2, 3, 4], siblings: [null, null] },
+  { id: 1, parent: null, type: 'node', children: [2, 3, 4, 5, 6], siblings: [null, null] },
   { id: 2, parent: 1, type: 'leaf', children: null, siblings: [ null, 3 ] },
   { id: 3, parent: 1, type: 'node', children: [ 8, 9 ], siblings: [ 2, 4 ] },
   { id: 4, parent: 1, type: 'node', children: [ 10, 11 ], siblings: [ 3, 5 ] },

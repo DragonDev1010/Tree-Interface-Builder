@@ -57,21 +57,21 @@ function getAllChildrenOfParent(treeArray, movingNode) {
   return idxOfChildren
 }
 
-function moveNodeUp(treeObject, movingNode, setTreeObject) {
+function moveNodeUp(treeObject, movingNode) {
   var childrenNodesArray = treeObject && treeObject.nodes ? treeObject.nodes : null
   // re-ordering of children
   // checking if there is previous node
   var idxOfMovingNodeInChildrenIdArray = childrenNodesArray.findIndex(childNodeItem => childNodeItem.id === movingNode.id)
   if (idxOfMovingNodeInChildrenIdArray > 0)
-  setTreeObject(childrenNodesArray.splice(
+    childrenNodesArray.splice(
       idxOfMovingNodeInChildrenIdArray - 1,
       0,
       childrenNodesArray.splice(idxOfMovingNodeInChildrenIdArray, 1)[0]
-    ))
+    )
 }
 
 export function handleNodeMoveUp(treeArray, movingNode, setTreeArray) {
-  
+
 }
 
 function moveNodeDown(treeArray, movingNode) {

@@ -2,7 +2,11 @@ import {
   getParentTreeOfMovingNode,
   switchingForwardInNodeList,
   movingUp,
-  movingDown
+  movingDown,
+  getGrandParentOfMovingNode,
+  getIdxOfNodeInArray,
+  movingLeft,
+  movingRight
 } from '../interfaceBuilderTree/functions/controlJsonTree'
 import { treeJsonTestData } from "./controlJsonTree.data.js";
 import deepCopyOfNestedObject from './baseFunctions/deepCopyOfNestedObject';
@@ -1156,4 +1160,235 @@ describe('movingDown', function() {
     done()
   })
  
+})
+
+describe('getGrandParentOfMovingNode', function() {
+  it('getting grand parent of Node - 8', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var result = getGrandParentOfMovingNode(testData, 8)
+    expect(result).to.eql(testData)
+    done()
+  })
+
+  it('getting grand parent of Node - 9', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var result = getGrandParentOfMovingNode(testData, 9)
+    expect(result).to.eql(testData)
+    done()
+  })
+  
+  it('getting grand parent of Node - 14', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var result = getGrandParentOfMovingNode(testData, 14)
+    expect(result).to.eql(testData)
+    done()
+  })
+  
+  it('getting grand parent of Node - 15', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var result = getGrandParentOfMovingNode(testData, 15)
+    expect(result).to.eql(testData.nodes[4])
+    done()
+  })
+  
+  it('getting grand parent of Node - 16', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var result = getGrandParentOfMovingNode(testData, 16)
+    expect(result).to.eql(testData.nodes[4])
+    done()
+  })
+  
+})
+
+describe('getIdxOfNodeInArray', function() {
+  it('get idx of node - 2', function(done) {
+    var testData = deepCopyOfNestedObject(treeJsonTestData)
+    var target = {
+      id: 2,
+      type: 'leaf'
+    }
+    var result = getIdxOfNodeInArray(testData.nodes, 2)
+    expect(result).to.eql(0)
+    done()
+  })
+
+  // it('get idx of node - 3', function(done) {
+  //   var testData = deepCopyOfNestedObject(treeJsonTestData)
+  //   var target = {
+  //     id: 3,
+  //     type: 'node',
+  //     nodes: [
+  //       {id: 8, type: 'leaf'},
+  //       {id: 9, type: 'leaf'}
+  //     ]
+  //   }
+  //   var result = getIdxOfNodeInArray(testData.nodes, target)
+  //   expect(result).to.eql(1)
+  //   done()
+  // })
+  
+  // it('get idx of node - 4', function(done) {
+  //   var testData = deepCopyOfNestedObject(treeJsonTestData)
+  //   var target = {
+  //     id: 4,
+  //     type: 'node',
+  //     nodes: [
+  //       {id: 10, type: 'leaf'},
+  //       {id: 11, type: 'leaf'}
+  //     ]
+  //   }
+  //   var result = getIdxOfNodeInArray(testData.nodes, target)
+  //   expect(result).to.eql(2)
+  //   done()
+  // })
+  
+  // it('get idx of node - 13', function(done) {
+  //   var testData = deepCopyOfNestedObject(treeJsonTestData)
+  //   var target = { id: 13, type: 'leaf'}
+  //   var result = getIdxOfNodeInArray(testData.nodes[4].nodes, target)
+  //   expect(result).to.eql(0)
+  //   done()
+  // })
+  
+  // it('get idx of node - 16', function(done) {
+  //   var testData = deepCopyOfNestedObject(treeJsonTestData)
+  //   var target = {id: 16, type: 'leaf'}
+  //   var result = getIdxOfNodeInArray(testData.nodes[4].nodes[1].nodes, target)
+  //   expect(result).to.eql(1)
+  //   done()
+  // })
+  
+})
+
+// describe('movingLeft', function() {
+//   it('moving left node - 8', function(done) {
+//     var testData = deepCopyOfNestedObject(treeJsonTestData)
+//     var movingNode = {id: 8, type: 'leaf'}
+//     movingLeft(testData, movingNode)
+//     expect(testData).to.eql(null)
+//     done()
+//   })
+// })
+
+describe('movingRight', function() {
+  it('moving right node - 3', function(done) {
+    let testData = deepCopyOfNestedObject(treeJsonTestData)
+    let movingNode = {
+      id: 3,
+      type: 'node',
+      nodes: [
+        {id: 8, type: 'leaf'},
+        {id: 9, type: 'leaf'}
+      ]
+    }
+    movingRight(testData, movingNode)
+    let expected = {
+      id: 1,
+      type: 'node',
+      nodes: [
+        {
+          id: 2,
+          type: 'leaf',
+          nodes: [
+            {
+              id: 3,
+              type: 'node',
+              nodes: [
+                {id: 8, type: 'leaf'},
+                {id: 9, type: 'leaf'}
+              ]
+            },
+          ]
+        }, {
+          id: 4,
+          type: 'node',
+          nodes: [
+            {id: 10, type: 'leaf'},
+            {id: 11, type: 'leaf'}
+          ]
+        }, {
+          id: 5,
+          type: 'node',
+          nodes: [ {id: 12, type: 'leaf'} ]
+        }, {
+          id: 6,
+          type: 'node',
+          nodes: [
+            { id: 13, type: 'leaf'},
+            {
+              id: 14,
+              type: 'node',
+              nodes: [
+                {id: 15, type: 'leaf'},
+                {id: 16, type: 'leaf'}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    expect(testData).to.eql(expected)
+    done()
+  })
+
+  it('moving right node - 14', function(done) {
+    let testData = deepCopyOfNestedObject(treeJsonTestData)
+    let movingNode = {
+      id: 14,
+      type: 'node',
+      nodes: [
+        {id: 15, type: 'leaf'},
+        {id: 16, type: 'leaf'}
+      ]
+    }
+    movingRight(testData, movingNode)
+    let expected = {
+      id: 1,
+      type: 'node',
+      nodes: [
+        {
+          id: 2,
+          type: 'leaf'
+        }, {
+          id: 3,
+          type: 'node',
+          nodes: [
+            {id: 8, type: 'leaf'},
+            {id: 9, type: 'leaf'}
+          ]
+        }, {
+          id: 4,
+          type: 'node',
+          nodes: [
+            {id: 10, type: 'leaf'},
+            {id: 11, type: 'leaf'}
+          ]
+        }, {
+          id: 5,
+          type: 'node',
+          nodes: [ {id: 12, type: 'leaf'} ]
+        }, {
+          id: 6,
+          type: 'node',
+          nodes: [
+            { 
+              id: 13, 
+              type: 'leaf',
+              nodes: {
+                id: 14,
+                type: 'node',
+                nodes: [
+                  {id: 15, type: 'leaf'},
+                  {id: 16, type: 'leaf'}
+                ]
+              }
+            },
+            
+          ]
+        }
+      ]
+    }
+    expect(testData).to.eql(expected)
+    done()
+  })
 })

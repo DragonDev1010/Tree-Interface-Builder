@@ -1,6 +1,5 @@
 // @input rootTreeJson : JSON data of the main tree
 // @input idxOfMovingNode : id of node moving
-
 var parentTreeOfMovingNode = null // this must global variable, because it is used in multiple functions
 export function getParentTreeOfMovingNode(rootTreeJson, idxOfMovingNode) {
   rootTreeJson.nodes && rootTreeJson.nodes.map((item) => {
@@ -52,17 +51,10 @@ export function movingDown(rootTreeJson, idxOfMovingNode) {
   switchingBackwardInNodeList(parentTreeOfMovingNode, idxOfMovingNode)
 }
 
-export function getGrandParentOfMovingNode(rootTreeJson, idxOfMovingNode) {
-  getParentTreeOfMovingNode(rootTreeJson, idxOfMovingNode)
-  var idxOfParentTree = parentTreeOfMovingNode.id
-  getParentTreeOfMovingNode(rootTreeJson, idxOfParentTree)
-  return parentTreeOfMovingNode
-}
-
-export function getIdxOfNodeInArray (nodesArray, idxOfMovingNode) {
+export function getIdxOfNodeInArray(nodesArray, idxOfMovingNode) {
   var idxOfNodeInArray = null
-  nodesArray.map((item, idx) => {
-    if (item.id == idxOfMovingNode) 
+  nodesArray && nodesArray.map((item, idx) => {
+    if (item.id == idxOfMovingNode)
       idxOfNodeInArray = idx
   })
   return idxOfNodeInArray
@@ -70,18 +62,21 @@ export function getIdxOfNodeInArray (nodesArray, idxOfMovingNode) {
 
 export function movingLeft(rootTreeJson, movingNode) {
   var idxOfMovingNode = movingNode.id
+  parentTreeOfMovingNode = null
   var parent = getParentTreeOfMovingNode(rootTreeJson, idxOfMovingNode)
-  var grandParent = getParentTreeOfMovingNode(rootTreeJson, parent.id)
-  var idxOfNodeInArray = getIdxOfNodeInArray(parent.nodes, idxOfMovingNode)
-  var idxOfParentNodeInGrandParentTree = getIdxOfNodeInArray(grandParent.nodes, parent.id)
-  // insert new node into nodes_array at the specific position
-  grandParent.nodes.splice(idxOfParentNodeInGrandParentTree+1, 0, movingNode)
-  // remove moving node from old parent nodes
-  parent.nodes.splice(idxOfNodeInArray, 1)
-}
-
-export function getSiblingOfNode (parentNode, movingNode) {
-
+  if (parent !== null) {
+    parentTreeOfMovingNode = null
+    var grandParent = getParentTreeOfMovingNode(rootTreeJson, parent.id)
+    if (grandParent !== null) {
+      var idxOfNodeInArray = getIdxOfNodeInArray(parent.nodes, idxOfMovingNode)
+      var idxOfParentNodeInGrandParentTree = getIdxOfNodeInArray(grandParent.nodes, parent.id)
+      // insert new node into nodes_array at the specific position
+      grandParent.nodes.splice(idxOfParentNodeInGrandParentTree + 1, 0, movingNode)
+      // remove moving node from old parent nodes
+      if (parent.nodes !== undefined)
+        parent.nodes.splice(idxOfNodeInArray, 1)
+    }
+  }
 }
 
 export function movingRight(rootTreeJson, movingNode) {
@@ -90,17 +85,17 @@ export function movingRight(rootTreeJson, movingNode) {
   // get the index of moving-node in the parent-nodes
   var idxOfMovingNodeInParentNodes = getIdxOfNodeInArray(parent.nodes, movingNode.id)
   // if there is not previous-sibling, the movning-right is useless
-  if (idxOfMovingNodeInParentNodes > 0){
+  if (idxOfMovingNodeInParentNodes > 0) {
     // find the previous sibling
     var previousSibling = parent.nodes[idxOfMovingNodeInParentNodes - 1]
     // if there is not nodes of previous-sibling, create new object called as `nodes`
-    if(previousSibling.nodes == null) {
+    if (previousSibling.nodes == null) {
       previousSibling.nodes = [movingNode]
     } else {
       // insert moving-node as the last child of the sibling-node
       previousSibling.nodes.push(movingNode)
     }
+    // delete movingNode from the parent-nodes
+    parent.nodes.splice(idxOfMovingNodeInParentNodes, 1)
   }
-  // delete movingNode from the parent-nodes
-  parent.nodes.splice(idxOfMovingNodeInParentNodes, 1)
 }

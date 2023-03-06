@@ -22,4 +22,6 @@ example:
   );
 ```
 
-
+# Working later
+- replace Array.map() with for() in `getIdxOfNodeInArray()` of controlJsonTree.JS
+It is to reduce performance, because Array.map() does not support break in loop.

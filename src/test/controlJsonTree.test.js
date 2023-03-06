@@ -6,7 +6,11 @@ import {
   movingDown,
   getIdxOfNodeInArray,
   movingLeft,
-  movingRight
+  movingRight,
+  findIdxOfLastNode,
+  createNewNode,
+  createChild,
+  deleteChild
 } from '../interfaceBuilderTree/functions/controlJsonTree'
 import { treeJsonTestData } from "./controlJsonTree.data.js";
 import deepCopyOfNestedObject from './baseFunctions/deepCopyOfNestedObject';
@@ -1471,6 +1475,416 @@ describe('movingRight', function() {
         }
       ]
     }
+    expect(testData).to.eql(expected)
+    done()
+  })
+})
+
+describe('getting the largest ID of node', function() {
+  it('getting largest Id of node - 1', function(done) {
+    var testData = {
+      id: 1,
+      type: 'node',
+      nodes: [
+        {
+          id: 2,
+          type: 'leaf'
+        }, {
+          id: 3,
+          type: 'node',
+          nodes: [
+            {id: 8, type: 'leaf'},
+            {id: 9, type: 'leaf'}
+          ]
+        }, {
+          id: 6,
+          type: 'node',
+          nodes: [
+            { id: 13, type: 'leaf'},
+            {
+              id: 14,
+              type: 'node',
+              nodes: [
+                {id: 15, type: 'leaf'},
+                {id: 16, type: 'leaf'}
+              ]
+            }
+          ]
+        }, {
+          id: 4,
+          type: 'node',
+          nodes: [
+            {id: 10, type: 'leaf'},
+            {id: 11, type: 'leaf'}
+          ]
+        }, {
+          id: 5,
+          type: 'node',
+          nodes: [ {id: 12, type: 'leaf'} ]
+        }
+      ]
+    }
+    var result = findIdxOfLastNode(testData)
+    expect(result).to.eql(16)
+    done()
+  })
+
+  it('getting largest Id of node - 1', function(done) {
+    var testData = {
+      id: 1,
+      type: 'node',
+      nodes: [
+        {
+          id: 2,
+          type: 'leaf'
+        }, {
+          id: 3,
+          type: 'node',
+          nodes: [
+            {id: 8, type: 'leaf'},
+            {id: 9, type: 'leaf'}
+          ]
+        }, {
+          id: 6,
+          type: 'node',
+          nodes: [
+            { id: 13, type: 'leaf'},
+            {
+              id: 14,
+              type: 'node',
+              nodes: [
+                {id: 15, type: 'leaf'},
+                {id: 16, type: 'leaf'}
+              ]
+            }
+          ]
+        }, {
+          id: 4,
+          type: 'node',
+          nodes: [
+            {id: 10, type: 'leaf'},
+            {id: 11, type: 'leaf'}
+          ]
+        }, {
+          id: 5,
+          type: 'node',
+          nodes: [ {id: 19, type: 'leaf'} ]
+        }
+      ]
+    }
+    var result = findIdxOfLastNode(testData)
+    expect(result).to.eql(19)
+    done()
+  })
+})
+
+describe('create new node', function() {
+  it('createNewNode - 1', function(done) {
+    const testData = {
+      id: 4,
+      nodes: [
+        {id: 10},
+        {
+          id: 9,
+          nodes: [
+            {id: 1}, {id: 5}
+          ]
+        }
+      ]
+    }
+    const newNode = {nodes: [{id: 100}, {id: 80}]}
+    var result = createNewNode(testData, newNode)
+    var expected = {id: 11, nodes: [{id: 100}, {id: 80}]}
+    expect(result).to.eql(expected)
+    done()
+  })
+})
+
+describe('createChild', function() {
+  it('createChild', function(done) {
+    const testData = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    const expected = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            },
+            {id: 201, val:'test data'}
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    createChild(testData, 1320, {val:'test data'})
+    expect(testData).to.eql(expected)
+    done()
+  })
+
+  it('createChild', function(done) {
+    const testData = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    const expected = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {
+              id: 109,
+              nodes: [{id: 201, val:'test data'}]
+            }, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    createChild(testData, 109, {val:'test data'})
+    expect(testData).to.eql(expected)
+    done()
+  })
+})
+
+describe('deleteChild', function() {
+  it('deleteChild', function(done) {
+    const testData = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    var expected = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    deleteChild(testData, 49)
+    expect(testData).to.eql(expected)
+    done()
+  })
+
+  it('deleteChild', function(done) {
+    const testData = {
+      id: 10,
+      nodes: [
+        {
+          id: 89,
+          nodes: [
+            {id: 109}, {id: 200}
+          ]
+        }, {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    var expected = {
+      id: 10,
+      nodes: [
+        {
+          id: 1320,
+          nodes: [
+            {id: 4},
+            {
+              id: 11,
+              nodes: [
+                {id: 6}, {id: 19}
+              ]
+            }
+          ]
+        }, {
+          id: 34,
+          nodes: [
+            {
+              id: 45,
+              nodes: [
+                {id: 49},
+                {id: 50}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    deleteChild(testData, 89)
     expect(testData).to.eql(expected)
     done()
   })

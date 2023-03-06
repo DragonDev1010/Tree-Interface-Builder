@@ -1,6 +1,7 @@
 // @input rootTreeJson : JSON data of the main tree
 // @input idxOfMovingNode : id of node moving
 var parentTreeOfMovingNode = null // this must global variable, because it is used in multiple functions
+var idxOfLastNode = -Infinity
 export function getParentTreeOfMovingNode(rootTreeJson, idxOfMovingNode) {
   rootTreeJson.nodes && rootTreeJson.nodes.map((item) => {
     if (item.id == idxOfMovingNode) {
@@ -53,6 +54,15 @@ export function movingDown(rootTreeJson, idxOfMovingNode) {
 
 export function getIdxOfNodeInArray(nodesArray, idxOfMovingNode) {
   var idxOfNodeInArray = null
+  // if (nodesArray !== null) {
+  //   for (let i = 0 ; i < nodesArray.length ; i++) {
+  //     if (nodesArray[i].id == idxOfMovingNode) {
+  //       idxOfNodeInArray = nodesArray[i].id
+  //       return idxOfNodeInArray
+  //     }
+  //   }
+  // }
+
   nodesArray && nodesArray.map((item, idx) => {
     if (item.id == idxOfMovingNode)
       idxOfNodeInArray = idx
@@ -98,4 +108,53 @@ export function movingRight(rootTreeJson, movingNode) {
     // delete movingNode from the parent-nodes
     parent.nodes.splice(idxOfMovingNodeInParentNodes, 1)
   }
+}
+
+export function findIdxOfLastNode(rootTreeJson) {
+  rootTreeJson.nodes.map(item => {
+    if (item.nodes !== undefined) {
+      return findIdxOfLastNode(item)
+    } else {
+      if (item.id > idxOfLastNode)
+        idxOfLastNode = item.id
+    }
+  })
+  return idxOfLastNode
+}
+
+export function createNewNode(rootTreeJson, newNode) {
+  // find `id` of the latest node
+  // initialized idxOfLastNode as infinity negative
+  idxOfLastNode = -Infinity
+  findIdxOfLastNode(rootTreeJson)
+  newNode.id = idxOfLastNode + 1
+  return newNode
+}
+
+export function insertNewNodeIntoTree(rootTreeJson, idxOfParentNode, childNode) {
+  // find the parent node from root tree
+  rootTreeJson.nodes.map(item => {
+    if (item.id == idxOfParentNode) {
+      if (item.nodes !== undefined) {
+        item.nodes.push(childNode)
+      } else {
+        item.nodes = [childNode]
+      }
+    } else if (item.nodes !== undefined) {
+      insertNewNodeIntoTree(item, idxOfParentNode, childNode)
+    }
+  })
+}
+
+export function createChild(rootTreeJson, idxOfParentNode, newNodeInfo) {
+  var childNode = createNewNode(rootTreeJson, newNodeInfo)
+  insertNewNodeIntoTree(rootTreeJson, idxOfParentNode, childNode)
+}
+
+export function deleteChild(rootTreeJson, idxOfDeletingNode) {
+  parentTreeOfMovingNode = null
+  getParentTreeOfMovingNode(rootTreeJson, idxOfDeletingNode)
+  var idxOfDeletingNOdeInParentNodes = getIdxOfNodeInArray(parentTreeOfMovingNode.nodes, idxOfDeletingNode)
+  // delete movingNode from the parent-nodes
+  parentTreeOfMovingNode.nodes.splice(idxOfDeletingNOdeInParentNodes, 1)
 }

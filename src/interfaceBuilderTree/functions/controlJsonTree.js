@@ -146,12 +146,12 @@ export function insertNewNodeIntoTree(rootTreeJson, idxOfParentNode, childNode) 
   })
 }
 
-export function createChild(rootTreeJson, idxOfParentNode, newNodeInfo) {
+export function creatingChild(rootTreeJson, idxOfParentNode, newNodeInfo) {
   var childNode = createNewNode(rootTreeJson, newNodeInfo)
   insertNewNodeIntoTree(rootTreeJson, idxOfParentNode, childNode)
 }
 
-export function deleteChild(rootTreeJson, idxOfDeletingNode) {
+export function deletingChild(rootTreeJson, idxOfDeletingNode) {
   parentTreeOfMovingNode = null
   getParentTreeOfMovingNode(rootTreeJson, idxOfDeletingNode)
   var idxOfDeletingNOdeInParentNodes = getIdxOfNodeInArray(parentTreeOfMovingNode.nodes, idxOfDeletingNode)

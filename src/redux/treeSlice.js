@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {treeObjectTestData} from '../test/controlTree.data'
-import { movingUp, movingDown, movingLeft, movingRight } from "../interfaceBuilderTree/functions/controlJsonTree";
-
+import {
+  movingUp,
+  movingDown,
+  movingLeft,
+  movingRight,
+  creatingChild,
+  deletingChild
+} from "../interfaceBuilderTree/functions/controlJsonTree";
 export const treeSlice = createSlice({
   name: 'tree',
   initialState: treeObjectTestData,
@@ -20,10 +26,18 @@ export const treeSlice = createSlice({
 
     moveLeft: (state, action) => {
       movingLeft(state, action.payload)
+    },
+
+    createChild: (state, action) => {
+      creatingChild(state, action.payload, { val: 'test data' })
+    },
+
+    deleteChild: (state, action) => {
+      deletingChild(state, action.payload)
     }
   }
 })
 
 
-export const {moveUp, moveDown, moveRight, moveLeft} = treeSlice.actions
+export const { moveUp, moveDown, moveRight, moveLeft, createChild, deleteChild } = treeSlice.actions
 export default treeSlice.reducer

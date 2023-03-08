@@ -9,8 +9,8 @@ import {
   movingRight,
   findIdxOfLastNode,
   createNewNode,
-  createChild,
-  deleteChild
+  creatingChild,
+  deletingChild
 } from '../interfaceBuilderTree/functions/controlJsonTree'
 import { treeJsonTestData } from "./controlJsonTree.data.js";
 import deepCopyOfNestedObject from './baseFunctions/deepCopyOfNestedObject';
@@ -1600,8 +1600,8 @@ describe('create new node', function() {
   })
 })
 
-describe('createChild', function() {
-  it('createChild', function(done) {
+describe('creatingChild', function() {
+  it('creatingChild', function(done) {
     const testData = {
       id: 10,
       nodes: [
@@ -1669,12 +1669,12 @@ describe('createChild', function() {
         }
       ]
     }
-    createChild(testData, 1320, {val:'test data'})
+    creatingChild(testData, 1320, {val:'test data'})
     expect(testData).to.eql(expected)
     done()
   })
 
-  it('createChild', function(done) {
+  it('creatingChild', function(done) {
     const testData = {
       id: 10,
       nodes: [
@@ -1744,14 +1744,14 @@ describe('createChild', function() {
         }
       ]
     }
-    createChild(testData, 109, {val:'test data'})
+    creatingChild(testData, 109, {val:'test data'})
     expect(testData).to.eql(expected)
     done()
   })
 })
 
-describe('deleteChild', function() {
-  it('deleteChild', function(done) {
+describe('deletingChild', function() {
+  it('deletingChild', function(done) {
     const testData = {
       id: 10,
       nodes: [
@@ -1817,12 +1817,12 @@ describe('deleteChild', function() {
         }
       ]
     }
-    deleteChild(testData, 49)
+    deletingChild(testData, 49)
     expect(testData).to.eql(expected)
     done()
   })
 
-  it('deleteChild', function(done) {
+  it('deletingChild', function(done) {
     const testData = {
       id: 10,
       nodes: [
@@ -1884,7 +1884,7 @@ describe('deleteChild', function() {
         }
       ]
     }
-    deleteChild(testData, 89)
+    deletingChild(testData, 89)
     expect(testData).to.eql(expected)
     done()
   })

@@ -10,8 +10,12 @@ import {
 } from "../interfaceBuilderTree/functions/controlJsonTree";
 export const treeSlice = createSlice({
   name: 'tree',
-  initialState: treeObjectTestData,
+  initialState: null,
   reducers: {
+    loadData: (state, action) => {
+      return action.payload
+    },
+
     moveUp: (state, action) => {
       movingUp(state, action.payload)
     },
@@ -39,5 +43,5 @@ export const treeSlice = createSlice({
 })
 
 
-export const { moveUp, moveDown, moveRight, moveLeft, createChild, deleteChild } = treeSlice.actions
+export const { loadData, moveUp, moveDown, moveRight, moveLeft, createChild, deleteChild } = treeSlice.actions
 export default treeSlice.reducer

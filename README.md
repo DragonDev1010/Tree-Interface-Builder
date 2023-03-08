@@ -22,6 +22,27 @@ example:
   );
 ```
 
+# Bug fix
+## Sending JSON data to API
+- setting header of fetch()
+```
+fetch(
+      'http://localhost:8080/save',
+      { 
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': "*",
+          "Content-Type": "application/json"
+        } ,
+        body: JSON.stringify(treeJsonData)
+      }
+    )
+      .then(res => res.json())
+      .catch(err => {console.log(err)})
+```
+
 # Working later
 - replace Array.map() with for() in `getIdxOfNodeInArray()` of controlJsonTree.JS
 It is to reduce performance, because Array.map() does not support break in loop.
+
+

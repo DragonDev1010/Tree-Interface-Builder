@@ -1,6 +1,6 @@
 export default function save_new_tree_view_api(reqBody) {
   fetch(
-    'http://localhost:8080/save',
+    process.env.REACT_APP_API_URL + 'save',
     {
       method: 'POST',
       headers: {

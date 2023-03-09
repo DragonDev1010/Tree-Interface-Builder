@@ -54,17 +54,9 @@ export function movingDown(rootTreeJson, idxOfMovingNode) {
 
 export function getIdxOfNodeInArray(nodesArray, idxOfMovingNode) {
   var idxOfNodeInArray = null
-  // if (nodesArray !== null) {
-  //   for (let i = 0 ; i < nodesArray.length ; i++) {
-  //     if (nodesArray[i].id == idxOfMovingNode) {
-  //       idxOfNodeInArray = nodesArray[i].id
-  //       return idxOfNodeInArray
-  //     }
-  //   }
-  // }
 
   nodesArray && nodesArray.map((item, idx) => {
-    if (item.id == idxOfMovingNode)
+    if (item.id === idxOfMovingNode)
       idxOfNodeInArray = idx
   })
   return idxOfNodeInArray

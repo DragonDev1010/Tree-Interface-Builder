@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {treeObjectTestData} from '../test/controlTree.data'
 import {
   movingUp,
   movingDown,

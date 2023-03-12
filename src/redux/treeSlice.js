@@ -7,9 +7,10 @@ import {
   creatingChild,
   deletingChild
 } from "../interfaceBuilderTree/functions/controlJsonTree";
+import { treeJsonTestData } from "../test/controlJsonTree.data";
 export const treeSlice = createSlice({
   name: 'tree',
-  initialState: null,
+  initialState: treeJsonTestData,
   reducers: {
     loadData: (state, action) => {
       return action.payload

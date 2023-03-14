@@ -1,8 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
-import ace from 'ace-builds/src-noconflict/ace';
-import { loadData } from '../../redux/treeSlice';
+import { updateJsonDataOnReduxStore } from '../../functions/updateJsonDataOnReduxStore';
 
 export default function ControlPanel() {
   const styles = {
@@ -30,10 +29,8 @@ export default function ControlPanel() {
 
   const dispatch = useDispatch(null)
 
-  const updateJsonDataOnReduxStore = () => {
-    const jsonAceEditor = ace.edit('jsonEditor')
-    const valueOfEditor = jsonAceEditor.getValue()
-    dispatch(loadData(valueOfEditor))
+  const handleClickConTreeToJsonBtn = () => {
+    updateJsonDataOnReduxStore(dispatch)
   }
 
   return (
@@ -41,7 +38,7 @@ export default function ControlPanel() {
       <button
         style={styles.convertBtn}
         id="conJsonToTree"
-        onClick={updateJsonDataOnReduxStore}
+        onClick={handleClickConTreeToJsonBtn}
       >
         <GoArrowRight size={30} />
       </button>

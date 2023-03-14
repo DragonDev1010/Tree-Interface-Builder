@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import TreeNodeElementControlPanel from './TreeNodeElementControlPanel'
-
+import TreeNodeElementUi from './TreeNodeElementUi'
 export default function TreeNodeElement(props) {
   const styles = {
     container: {
@@ -35,9 +35,10 @@ export default function TreeNodeElement(props) {
       onMouseLeave = {handleMouseLeave}
     >
       <TreeNodeElementControlPanel isHovered = {isHovered} node={props.node}/>
-      <div style={{ textAlign: 'center', padding: 5, border: '1px solid #E6CCB2', cursor: 'pointer'}} >
+      <TreeNodeElementUi node = {props.node.node_value}/>
+      {/* <div style={{ textAlign: 'center', padding: 5, border: '1px solid #E6CCB2', cursor: 'pointer'}} >
         <span>ID : {props.node.id} : {props.node.value}</span>
-      </div>
+      </div> */}
     </div >
   )
 }

@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import AceEditor from 'react-ace';
-import "ace-builds/src-noconflict/mode-json";
+import ViewHeader from './ViewHeader';
+import JsonEditor from './JsonEditor';
 
 export default function JsonDataView(props) {
   const styles = {
@@ -14,12 +13,8 @@ export default function JsonDataView(props) {
 
   return (
     <div style={styles.container}>
-      <AceEditor 
-        style={{width: '100%', height: '100%'}}
-        name='jsonEditor'
-        mode='json'
-        ref = {props.jsonEditorRef}
-      />
+      <ViewHeader />
+      <JsonEditor />
     </div>
   );
 }

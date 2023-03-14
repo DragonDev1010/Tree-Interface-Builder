@@ -5,7 +5,7 @@ export default function jsonDataSchemaValidator(jsonData) {
     type: 'object',
     properties: {
       id: { type: 'number' },
-      node_value: { type: 'string' },
+      node_value: { type: 'object' },
       nodes: { type: 'array' }
     },
     required: ['id', 'node_value'],
@@ -16,6 +16,8 @@ export default function jsonDataSchemaValidator(jsonData) {
 
   if(validate(jsonData))
     return true
-  else
+  else {
+    console.log(validate.errors)
     return false
+  }
 }

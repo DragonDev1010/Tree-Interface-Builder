@@ -45,4 +45,5 @@ fetch(
 - replace Array.map() with for() in `getIdxOfNodeInArray()` of controlJsonTree.JS
 It is to reduce performance, because Array.map() does not support break in loop.
 
-
+## color pallete
+https://coolors.co/palette/ede0d4-e6ccb2-ddb892-b08968-7f5539-9c6644

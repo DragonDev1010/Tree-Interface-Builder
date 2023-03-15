@@ -25,8 +25,8 @@ export default function TreeNodeElementControlPanel(props) {
       justifyContent: 'space-around'
     },
     buttonStyle: {
-      border: '1px solid #7F5539',
-      background: '#9C6644',
+      border: '1px solid var(--primary-background-color)',
+      background: 'var(--background-color)',
       color: 'white',
       fontSize: 15
     },
@@ -34,7 +34,7 @@ export default function TreeNodeElementControlPanel(props) {
       width: 20,
       height: 20,
       cursor: 'pointer',
-      fill: '#7F5539'
+      fill: 'var(--primary-background-color)'
     }
   }
 

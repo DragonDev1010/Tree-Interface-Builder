@@ -14,9 +14,9 @@ export default function ControlPanel() {
     },
     convertBtn: {
       padding: '10px 20px',
-      border: '1px solid #9C6644',
+      border: '1px solid var(--background-color)',
       borderRadius: '20px',
-      color: '#9C6644',
+      color: 'var(--background-color)',
       fontSize: 20,
       fontWeight: 'bolder',
       boxShadow: `0 0 5px 2px rgba(0, 0, 0, 0.2)`,

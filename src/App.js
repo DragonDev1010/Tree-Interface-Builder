@@ -9,7 +9,7 @@ function App() {
       height: 'calc(100vh - 100px)',
       width: '100%',
       display: 'flex',
-      background: '#EDE0D4',
+      background: 'var(--primary-font-color)',
       padding: 20
     }
   }

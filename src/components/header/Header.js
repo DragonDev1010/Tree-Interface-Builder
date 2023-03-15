@@ -3,10 +3,10 @@ import React from 'react'
 export default function Header() {
   const styles = {
     headerContainer: {
-      background: '#9C6644',
+      background: 'var(--background-color)',
       width: '100%',
       height: 100,
-      color: '#EDE0D4',
+      color: 'var(--primary-font-color)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'

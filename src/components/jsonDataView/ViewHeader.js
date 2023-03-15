@@ -9,7 +9,7 @@ import { loadData } from '../../redux/treeSlice';
 export default function ViewHeader(props) {
   const styles = {
     editorHeader: {
-      background: '#9C6644',
+      background: 'var(--background-color)',
       color: 'white',
       padding: '0 20px',
       display: 'flex',
@@ -31,12 +31,13 @@ export default function ViewHeader(props) {
   const dispatch = useDispatch()
   const [copied, setCopied] = useState(false)
 
-  const jsonAceEditor = ace.edit('jsonEditor')
+  
   const handleInsertSampleData = () => {
     insertSampleDataIntoAceEditor()
   }
 
   const handleCopy = () => {
+    const jsonAceEditor = ace.edit('jsonEditor')
     const jsonData = jsonAceEditor.getValue()
     navigator.clipboard.writeText(jsonData)
       .then(() => {

@@ -36,9 +36,6 @@ export default function TreeNodeElement(props) {
     >
       <TreeNodeElementControlPanel isHovered = {isHovered} node={props.node}/>
       <TreeNodeElementUi node = {props.node.node_value}/>
-      {/* <div style={{ textAlign: 'center', padding: 5, border: '1px solid #E6CCB2', cursor: 'pointer'}} >
-        <span>ID : {props.node.id} : {props.node.value}</span>
-      </div> */}
     </div >
   )
 }

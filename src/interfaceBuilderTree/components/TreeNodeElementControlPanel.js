@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { moveUp, moveDown, moveLeft, moveRight, createChild, deleteChild } from '../../redux/treeSlice'
+import { moveUp, moveDown, moveLeft, moveRight } from '../../redux/treeSlice'
 import {AiFillDownCircle, AiFillUpCircle, AiFillRightCircle, AiFillLeftCircle} from 'react-icons/ai'
 
 export default function TreeNodeElementControlPanel(props) {
@@ -11,7 +11,7 @@ export default function TreeNodeElementControlPanel(props) {
       alignItems: 'center',
       justifyContent: 'flex-start',
       gap: 15,
-      opacity: props.isHovered ? 1 : 0
+      opacity: props.isHovered ? 1 : 0,
     },
     movingPanelContainer: {
       width: 60,
@@ -62,10 +62,10 @@ export default function TreeNodeElementControlPanel(props) {
           style = {styles.movingArrow}
         />
       </div>
-      <div style={styles.updatePanelContainer}>
+      {/* <div style={styles.updatePanelContainer}>
         <button onClick={() => dispatch(createChild(props.node.id))} style={styles.buttonStyle}>Create</button>
         <button onClick={() => dispatch(deleteChild(props.node.id))} style={styles.buttonStyle}>Delete</button>
-      </div>
+      </div> */}
     </div>
   )
 }

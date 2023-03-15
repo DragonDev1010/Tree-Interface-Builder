@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { GoArrowRight, GoArrowLeft } from 'react-icons/go'
 import { updateJsonDataOnReduxStore } from '../../functions/updateJsonDataOnReduxStore';
 
 export default function ControlPanel() {
@@ -40,13 +39,7 @@ export default function ControlPanel() {
         id="conJsonToTree"
         onClick={handleClickConTreeToJsonBtn}
       >
-        <GoArrowRight size={30} />
-      </button>
-      <button
-        style={styles.convertBtn}
-        id="conTreeToJson"
-      >
-        <GoArrowLeft size={30} />
+        Convert
       </button>
     </div>
   )
